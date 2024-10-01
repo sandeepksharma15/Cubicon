@@ -1,20 +1,29 @@
 ﻿using System.IO;
 using System.Windows;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Cubicon;
 
 public partial class App : System.Windows.Application
 {
     private NotifyIcon trayIcon;
     private ContextMenuStrip trayMenu;
+    private IServiceProvider serviceProvider;
+
     public static string IconsFolder => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources");
 
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
 
+        // Register Services
+        serviceProvider = AppServices.RegisterServices();
+
         // Restore window state
-        // RestoreWindowState();
+        serviceProvider
+            .GetRequiredService<IAppStateService>()
+            .RestoreAppState();
 
         DisplayTrayMenu();
     }
@@ -33,7 +42,7 @@ public partial class App : System.Windows.Application
 
         // Create a tray icon
         trayIcon = new NotifyIcon();
-        trayIcon.Text = "Icon Box";
+        trayIcon.Text = "Cubicon";
         trayIcon.Icon = new Icon(Path.Combine(IconsFolder!, "IcoBox.ico"), 40, 40);
 
         // Add menu to tray icon
@@ -62,7 +71,7 @@ public partial class App : System.Windows.Application
 
     private void CreateIconGrpup(object sender, EventArgs e)
     {
-        // new IconBox().Show();
+        new IconCube().Show();
     }
 
     private void AboutIcoBox(object sender, EventArgs e)
@@ -73,7 +82,9 @@ public partial class App : System.Windows.Application
     // Exit action
     private void OnExitClick(object sender, EventArgs e)
     {
-        // SaveWindowState();
+        serviceProvider
+            .GetRequiredService<IAppStateService>()
+            .SaveAppState();
 
         trayIcon.Visible = false;
         Shutdown();

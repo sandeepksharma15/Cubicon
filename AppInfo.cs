@@ -13,6 +13,6 @@ public static class AppInfo
     public static string AppUrl { get; set; } = "";
     public static string AppIcon { get; set; } = "";
 
-    public static string NewBoxTitle { get; set; } = "New Cubicon";
+    public static string NewCubeTitle { get; set; } = "New Cubicon";
     public static string SaveFileName { get; set; } = "CubiconData.json";
 }
