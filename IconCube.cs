@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 using static Cubicon.Helpers;
@@ -44,7 +43,7 @@ public class IconCube : Window
         // Set the content of the window to be the border
         Content = new Border
         {
-            BorderThickness = new Thickness(5),
+            BorderThickness = new Thickness(2),
             Child = dockPanel,
         };
     }
@@ -100,6 +99,8 @@ public class IconCube : Window
             Cursor = System.Windows.Input.Cursors.Arrow,
             FontFamily = new System.Windows.Media.FontFamily("Tahoma"),
             FontSize = 16,
+
+            Padding = new Thickness(5, 5, 2, 2)
         };
     }
 
